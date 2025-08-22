@@ -1,0 +1,48 @@
+[gd_scene load_steps=7 format=3 uid="uid://0xjudtughdoh"]
+
+[ext_resource type="Script" uid="uid://cqkqta30w448c" path="res://FPSController/Player.gd" id="1_2j53v"]
+[ext_resource type="PackedScene" uid="uid://bxhijtrr2gqpk" path="res://ak47.glb" id="2_jryqt"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_f6xud"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_aydiy"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2j53v"]
+albedo_color = Color(0.713225, 0.268923, 0.271648, 1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_jryqt"]
+material = SubResource("StandardMaterial3D_2j53v")
+
+[node name="CharacterBody3D" type="CharacterBody3D"]
+script = ExtResource("1_2j53v")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CapsuleShape3D_f6xud")
+
+[node name="WorldModel" type="Node3D" parent="."]
+unique_name_in_owner = true
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="WorldModel"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+mesh = SubResource("CapsuleMesh_aydiy")
+
+[node name="Eye" type="MeshInstance3D" parent="WorldModel"]
+transform = Transform3D(0.227942, 0, 0, 0, 1.06144e-10, 0.227942, 0, -0.00524914, 6.79319e-09, -0.164341, 1.67057, -0.485436)
+mesh = SubResource("CylinderMesh_jryqt")
+skeleton = NodePath("../../Head")
+
+[node name="Eye2" type="MeshInstance3D" parent="WorldModel"]
+transform = Transform3D(0.227942, 0, 0, 0, 1.06144e-10, 0.227942, 0, -0.00524914, 6.79319e-09, 0.130038, 1.67057, -0.485436)
+mesh = SubResource("CylinderMesh_jryqt")
+skeleton = NodePath("../../Head")
+
+[node name="ak472" parent="WorldModel" instance=ExtResource("2_jryqt")]
+transform = Transform3D(-9.65469e-08, 0, 2.20873, 0, 2.20873, 0, -2.20873, 0, -9.65469e-08, 0.198935, 1.6678, -0.582358)
+
+[node name="Head" type="Node3D" parent="."]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.79, 0)
+
+[node name="Camera3D" type="Camera3D" parent="Head"]
+unique_name_in_owner = true

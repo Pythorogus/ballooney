@@ -1,0 +1,5 @@
+[gd_scene load_steps=2 format=3 uid="uid://ol6o8w44vxfy"]
+
+[ext_resource type="PackedScene" uid="uid://mnuyaiiogm2b" path="res://Weapon/Rifle.glb" id="1_j33d7"]
+
+[node name="Rifle" instance=ExtResource("1_j33d7")]

@@ -1,0 +1,19 @@
+[gd_scene load_steps=4 format=3 uid="uid://couycl4pgm7ec"]
+
+[ext_resource type="Script" uid="uid://cqguy70pa1up2" path="res://Enemy/enemy.gd" id="1_px1sc"]
+[ext_resource type="PackedScene" uid="uid://ra0fr1486qpc" path="res://Enemy/poddleballoon_v_1.tscn" id="2_px1sc"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_2pb1h"]
+size = Vector3(2.40341, 8.72916, 6.72266)
+
+[node name="Enemy" type="CharacterBody3D" node_paths=PackedStringArray("balloon")]
+transform = Transform3D(1, 0, -1.74846e-07, 0, 1, 0, 1.74846e-07, 0, 1, 0, 0, 0)
+script = ExtResource("1_px1sc")
+balloon = NodePath("poddleballoon_V1")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, -0.015976, 1.12384, 0.140603)
+shape = SubResource("BoxShape3D_2pb1h")
+
+[node name="poddleballoon_V1" parent="." instance=ExtResource("2_px1sc")]
+transform = Transform3D(-0.25, 0, 2.18557e-08, 0, 0.25, 0, -2.18557e-08, 0, -0.25, 0, 0, 0)

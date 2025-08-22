@@ -1,0 +1,22 @@
+[gd_scene load_steps=5 format=3 uid="uid://bfvdh2uyp43fv"]
+
+[ext_resource type="Script" uid="uid://sdebosr764ef" path="res://Weapon/projectile.gd" id="1_mohub"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_mohub"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dd86v"]
+albedo_color = Color(1, 1, 0.196078, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_mwhpv"]
+material = SubResource("StandardMaterial3D_dd86v")
+
+[node name="Projectile" type="Area3D"]
+script = ExtResource("1_mohub")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(0.1, 0, 0, 0, -4.37114e-09, -0.1, 0, 0.1, -4.37114e-09, 0, 0, 0)
+shape = SubResource("SphereShape3D_mohub")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.1, 0, 0, 0, -4.37114e-09, 0.1, 0, -0.1, -4.37114e-09, 0, 0, 0)
+mesh = SubResource("SphereMesh_mwhpv")
