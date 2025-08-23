@@ -1,14 +1,16 @@
 [gd_scene load_steps=10 format=3 uid="uid://0xjudtughdoh"]
 
 [ext_resource type="Script" uid="uid://cqkqta30w448c" path="res://Player/Player.gd" id="1_2j53v"]
-[ext_resource type="PackedScene" uid="uid://bxhijtrr2gqpk" path="res://Weapon/ak47.glb" id="2_jryqt"]
 [ext_resource type="PackedScene" uid="uid://bfvdh2uyp43fv" path="res://Weapon/projectile.tscn" id="2_tok1r"]
-[ext_resource type="PackedScene" uid="uid://mnuyaiiogm2b" path="res://Weapon/Rifle.glb" id="4_8g4oa"]
+[ext_resource type="PackedScene" uid="uid://bbq0w2fxno4w" path="res://Weapon/rifle_v_3.tscn" id="4_6ysni"]
 [ext_resource type="AudioStream" uid="uid://dkad4d5dbsnw8" path="res://Weapon/pan.mp3" id="4_ddoul"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_f6xud"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_aydiy"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ddoul"]
+size = Vector3(1, 1.83801, 1)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2j53v"]
 albedo_color = Color(0.713225, 0.268923, 0.271648, 1)
@@ -16,12 +18,14 @@ albedo_color = Color(0.713225, 0.268923, 0.271648, 1)
 [sub_resource type="CylinderMesh" id="CylinderMesh_jryqt"]
 material = SubResource("StandardMaterial3D_2j53v")
 
-[node name="CharacterBody3D" type="CharacterBody3D" node_paths=PackedStringArray("weapon", "pan_audio", "weapon_cooldown")]
+[node name="CharacterBody3D" type="CharacterBody3D" node_paths=PackedStringArray("weapon", "pan_audio", "weapon_cooldown", "projectile_spawn", "damage_area")]
 script = ExtResource("1_2j53v")
-weapon = NodePath("Head/Camera3D/Rifle")
+weapon = NodePath("Head/Camera3D/Rifle_V3")
 pan_audio = NodePath("PanAudio")
 projectile_scene = ExtResource("2_tok1r")
 weapon_cooldown = NodePath("WeaponCooldown")
+projectile_spawn = NodePath("Head/Camera3D/Rifle_V3/ProjectileSpawn")
+damage_area = NodePath("DamageArea")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
@@ -34,6 +38,12 @@ unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 mesh = SubResource("CapsuleMesh_aydiy")
 
+[node name="DamageArea" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="DamageArea"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1456, 0)
+shape = SubResource("BoxShape3D_ddoul")
+
 [node name="Head" type="Node3D" parent="."]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.79, 0)
@@ -43,18 +53,11 @@ unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.21634)
 cull_mask = 1048573
 
-[node name="Weapon" parent="Head/Camera3D" instance=ExtResource("2_jryqt")]
-transform = Transform3D(-9.65469e-08, 0, 2.20873, 0, 2.20873, 0, -2.20873, 0, -9.65469e-08, 0.198935, -0.222791, -0.0794134)
-visible = false
+[node name="Rifle_V3" parent="Head/Camera3D" instance=ExtResource("4_6ysni")]
+transform = Transform3D(0.242062, 0, 0, 0, 0.242062, 0, 0, 0, 0.242062, 0.393056, -0.494777, 0)
 
-[node name="ProjectileSpawn" type="Node3D" parent="Head/Camera3D/Weapon"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.476554, 0.0271881, 2.23517e-08)
-
-[node name="Rifle" parent="Head/Camera3D" instance=ExtResource("4_8g4oa")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.367104, -0.857198, -0.38698)
-
-[node name="ProjectileSpawn" type="Node3D" parent="Head/Camera3D/Rifle"]
-transform = Transform3D(-9.65469e-08, 0, 2.20873, 0, 2.20873, 0, -2.20873, 0, -9.65469e-08, 0.198935, -0.16274, -1.13199)
+[node name="ProjectileSpawn" type="Node3D" parent="Head/Camera3D/Rifle_V3"]
+transform = Transform3D(-2.05905e-08, 0, 0.471054, 0, 0.471054, 0, -0.471054, 0, -2.05905e-08, 0.00673687, 0.970264, -8.07425)
 
 [node name="Eye" type="MeshInstance3D" parent="Head"]
 transform = Transform3D(0.227942, 0, 0, 0, 1.06144e-10, 0.227942, 0, -0.00524914, 6.79319e-09, -0.164341, -0.119427, -0.485436)
@@ -72,3 +75,5 @@ stream = ExtResource("4_ddoul")
 
 [node name="WeaponCooldown" type="Timer" parent="."]
 one_shot = true
+
+[connection signal="body_entered" from="DamageArea" to="." method="_on_damage_area_body_entered"]

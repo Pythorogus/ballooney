@@ -1,0 +1,63 @@
+[gd_scene load_steps=2 format=3 uid="uid://bhq2waopgi1v7"]
+
+[ext_resource type="Script" uid="uid://8wmcralsypkd" path="res://LevelUp/level_up_menu.gd" id="1_r5530"]
+
+[node name="LevelUpMenu" type="Control" node_paths=PackedStringArray("choice_button1", "choice_button2", "choice_button3")]
+process_mode = 2
+z_index = 1
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_r5530")
+choice_button1 = NodePath("CenterContainer/VBoxContainer/ChoiceButton1")
+choice_button2 = NodePath("CenterContainer/VBoxContainer/ChoiceButton2")
+choice_button3 = NodePath("CenterContainer/VBoxContainer/ChoiceButton3")
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.290196)
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CenterContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 50
+text = "Level up !
+Choose an upgrade :"
+horizontal_alignment = 1
+
+[node name="ChoiceButton1" type="Button" parent="CenterContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 50
+text = "HEALTH +1"
+
+[node name="ChoiceButton2" type="Button" parent="CenterContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 50
+text = "MOVEMENT SPEED +10%"
+
+[node name="ChoiceButton3" type="Button" parent="CenterContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 50
+text = "PROJECTILES +2"
+
+[connection signal="pressed" from="CenterContainer/VBoxContainer/ChoiceButton1" to="." method="_on_choice_button_1_pressed"]
+[connection signal="pressed" from="CenterContainer/VBoxContainer/ChoiceButton2" to="." method="_on_choice_button_2_pressed"]
+[connection signal="pressed" from="CenterContainer/VBoxContainer/ChoiceButton3" to="." method="_on_choice_button_3_pressed"]

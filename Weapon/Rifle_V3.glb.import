@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://d4e8msxpg58xm"
-path="res://.godot/imported/poddleballoon_V1.glb-6b20ef7859a7d910a461f488ebe0ba7a.scn"
+uid="uid://cy0hdyvusqksk"
+path="res://.godot/imported/Rifle_V3.glb-ed7e771da9d5e213a4d6042479bed73b.scn"
 
 [deps]
 
-source_file="res://poddleballoon_V1.glb"
-dest_files=["res://.godot/imported/poddleballoon_V1.glb-6b20ef7859a7d910a461f488ebe0ba7a.scn"]
+source_file="res://Weapon/Rifle_V3.glb"
+dest_files=["res://.godot/imported/Rifle_V3.glb-ed7e771da9d5e213a4d6042479bed73b.scn"]
 
 [params]
 

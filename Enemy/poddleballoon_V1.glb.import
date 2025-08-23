@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://bxhijtrr2gqpk"
-path="res://.godot/imported/ak47.glb-55a1aeedad9beea208e82397f049a27c.scn"
+uid="uid://d4e8msxpg58xm"
+path="res://.godot/imported/poddleballoon_V1.glb-a8d3e2c934b81aa4aafdd9c0221695e4.scn"
 
 [deps]
 
-source_file="res://Weapon/ak47.glb"
-dest_files=["res://.godot/imported/ak47.glb-55a1aeedad9beea208e82397f049a27c.scn"]
+source_file="res://Enemy/poddleballoon_V1.glb"
+dest_files=["res://.godot/imported/poddleballoon_V1.glb-a8d3e2c934b81aa4aafdd9c0221695e4.scn"]
 
 [params]
 

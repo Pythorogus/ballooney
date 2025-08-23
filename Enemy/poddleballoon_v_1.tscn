@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://ra0fr1486qpc"]
 
-[ext_resource type="PackedScene" uid="uid://d4e8msxpg58xm" path="res://poddleballoon_V1.glb" id="1_jbxjt"]
+[ext_resource type="PackedScene" uid="uid://d4e8msxpg58xm" path="res://Enemy/poddleballoon_V1.glb" id="1_jbxjt"]
 [ext_resource type="Script" uid="uid://37rtnl36lxa7" path="res://Enemy/balloon.gd" id="2_w813e"]
 
 [node name="poddleballoon_V1" node_paths=PackedStringArray("mesh") instance=ExtResource("1_jbxjt")]

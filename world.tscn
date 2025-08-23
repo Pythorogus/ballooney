@@ -1,9 +1,14 @@
-[gd_scene load_steps=9 format=3 uid="uid://dg3ofdofjqv78"]
+[gd_scene load_steps=16 format=3 uid="uid://dg3ofdofjqv78"]
 
-[ext_resource type="Texture2D" uid="uid://b3afylh7wdkxe" path="res://Concrete_Base_01_Ambient_Occlusion.jpg" id="1_aqk2v"]
+[ext_resource type="Script" uid="uid://pbd55wd4m1df" path="res://Enemy/enemy_controller.gd" id="1_036b0"]
+[ext_resource type="Texture2D" uid="uid://b3afylh7wdkxe" path="res://Arena/Concrete_Base_01_Ambient_Occlusion.jpg" id="1_aqk2v"]
 [ext_resource type="PackedScene" uid="uid://0xjudtughdoh" path="res://Player/Player.tscn" id="1_f3sb7"]
 [ext_resource type="PackedScene" uid="uid://couycl4pgm7ec" path="res://Enemy/enemy.tscn" id="2_fj7yv"]
+[ext_resource type="Script" uid="uid://fqucq7ewqy3h" path="res://LevelUp/level_up_controller.gd" id="3_pkg7o"]
 [ext_resource type="AudioStream" uid="uid://bvtbrxwruauam" path="res://Enemy/ballon-pop-2-360884.ogg" id="3_tlwt5"]
+[ext_resource type="PackedScene" uid="uid://bhq2waopgi1v7" path="res://LevelUp/level_up_menu.tscn" id="4_gbfbk"]
+[ext_resource type="Script" uid="uid://dqauw4q1cjqmb" path="res://Game/game_controller.gd" id="4_ioo17"]
+[ext_resource type="Texture2D" uid="uid://dbtu4jxkh1dr1" path="res://Arena/Concrete_Base_01_Height.jpg" id="6_dwbse"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_f3sb7"]
 sky_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
@@ -21,7 +26,31 @@ tonemap_mode = 2
 albedo_color = Color(0.417257, 0.417257, 0.417257, 1)
 albedo_texture = ExtResource("1_aqk2v")
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_036b0"]
+albedo_texture = ExtResource("6_dwbse")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dwbse"]
+bg_color = Color(1, 0.339639, 0.307252, 1)
+
 [node name="World" type="Node3D"]
+
+[node name="Controllers" type="Node" parent="."]
+
+[node name="EnemyController" type="Node" parent="Controllers" node_paths=PackedStringArray("enemy_spawns", "enemies", "player")]
+script = ExtResource("1_036b0")
+enemy_scene = ExtResource("2_fj7yv")
+enemy_spawns = NodePath("../../EnemySpawns")
+enemies = NodePath("../../Enemies")
+player = NodePath("../../Player")
+
+[node name="LevelUpController" type="Node" parent="Controllers" node_paths=PackedStringArray("player", "level_up_menu", "cross_container")]
+script = ExtResource("3_pkg7o")
+player = NodePath("../../Player")
+level_up_menu = NodePath("../../LevelUpLayer/LevelUpMenu")
+cross_container = NodePath("../../UILayer/CrossContainer")
+
+[node name="GameController" type="Node" parent="Controllers"]
+script = ExtResource("4_ioo17")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(-0.866025, -0.433013, 0.25, 0, 0.5, 0.866025, -0.5, 0.75, -0.433013, 0, 0, 0)
@@ -30,46 +59,164 @@ shadow_enabled = true
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_tlwt5")
 
-[node name="CSGBox3D" type="CSGBox3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0750751, -0.453289, 0.0621262)
-use_collision = true
-size = Vector3(75, 0.002, 75)
-material = SubResource("StandardMaterial3D_f3sb7")
-
-[node name="Player" parent="." instance=ExtResource("1_f3sb7")]
+[node name="Player" parent="." node_paths=PackedStringArray("health_bar", "health_label", "level_label", "xp_label", "xp_bar") instance=ExtResource("1_f3sb7")]
+unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.148115, -0.4985, -0.070585)
+health_bar = NodePath("../UILayer/CenterContainer/MarginContainer/HealthBar")
+health_label = NodePath("../UILayer/CenterContainer/MarginContainer/HealthBar/HealthLabel")
+level_label = NodePath("../UILayer/MarginContainer/VBoxContainer/LevelLabel")
+xp_label = NodePath("../UILayer/MarginContainer/VBoxContainer/XPBar/XPLabel")
+xp_bar = NodePath("../UILayer/MarginContainer/VBoxContainer/XPBar")
 
-[node name="Enemy" parent="." node_paths=PackedStringArray("player") instance=ExtResource("2_fj7yv")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -23.2725)
-player = NodePath("../Player")
+[node name="EnemySpawns" type="Node3D" parent="."]
 
-[node name="Enemy2" parent="." node_paths=PackedStringArray("player") instance=ExtResource("2_fj7yv")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.18926, 0, -28.5324)
-player = NodePath("../Player")
+[node name="Spawn" type="Node3D" parent="EnemySpawns"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 31.9188)
 
-[node name="Enemy3" parent="." node_paths=PackedStringArray("player") instance=ExtResource("2_fj7yv")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.5269, 0, -30.1308)
-player = NodePath("../Player")
+[node name="Spawn2" type="Node3D" parent="EnemySpawns"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 31.8298, 0, 31.9188)
 
-[node name="Enemy4" parent="." node_paths=PackedStringArray("player") instance=ExtResource("2_fj7yv")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20.4558, 0, -17.8854)
-player = NodePath("../Player")
+[node name="Spawn3" type="Node3D" parent="EnemySpawns"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 31.8298, 0, -0.0257893)
+
+[node name="Spawn4" type="Node3D" parent="EnemySpawns"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 31.8298, 0, -29.3574)
+
+[node name="Spawn5" type="Node3D" parent="EnemySpawns"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0620728, 0, -29.3574)
+
+[node name="Spawn6" type="Node3D" parent="EnemySpawns"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -26.7108, 0, -29.3574)
+
+[node name="Spawn7" type="Node3D" parent="EnemySpawns"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -26.7108, 0, 0.118759)
+
+[node name="Spawn8" type="Node3D" parent="EnemySpawns"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -26.7108, 0, 25.4562)
+
+[node name="EnemySpawnTimer" type="Timer" parent="."]
+autostart = true
+
+[node name="Enemies" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 46.667, 0, 0)
 
 [node name="EnemyDeathAudio" type="AudioStreamPlayer3D" parent="."]
 unique_name_in_owner = true
 stream = ExtResource("3_tlwt5")
 volume_db = -2.038
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
+[node name="Walls" type="Node3D" parent="."]
 
-[node name="CrossContainer" type="CenterContainer" parent="CanvasLayer"]
+[node name="Ground" type="CSGBox3D" parent="Walls"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.453, 0)
+use_collision = true
+size = Vector3(75, 0.002, 75)
+material = SubResource("StandardMaterial3D_f3sb7")
+
+[node name="Wall" type="CSGBox3D" parent="Walls"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -37.5)
+use_collision = true
+size = Vector3(75, 15, 1)
+material = SubResource("StandardMaterial3D_036b0")
+
+[node name="Wall2" type="CSGBox3D" parent="Walls"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 37.5)
+use_collision = true
+size = Vector3(75, 15, 1)
+material = SubResource("StandardMaterial3D_036b0")
+
+[node name="Wall3" type="CSGBox3D" parent="Walls"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -37.5, 0, 0)
+use_collision = true
+size = Vector3(75, 15, 1)
+material = SubResource("StandardMaterial3D_036b0")
+
+[node name="Wall4" type="CSGBox3D" parent="Walls"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 37.5, 0, 0)
+use_collision = true
+size = Vector3(75, 15, 1)
+material = SubResource("StandardMaterial3D_036b0")
+
+[node name="UILayer" type="CanvasLayer" parent="."]
+
+[node name="CrossContainer" type="CenterContainer" parent="UILayer"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Cross" type="Label" parent="CanvasLayer/CrossContainer"]
+[node name="Cross" type="Label" parent="UILayer/CrossContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 60
 text = "+"
+
+[node name="CenterContainer" type="CenterContainer" parent="UILayer"]
+custom_minimum_size = Vector2(0, 20)
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -54.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="MarginContainer" type="MarginContainer" parent="UILayer/CenterContainer"]
+custom_minimum_size = Vector2(500, 75)
+layout_mode = 2
+theme_override_constants/margin_bottom = 50
+
+[node name="HealthBar" type="ProgressBar" parent="UILayer/CenterContainer/MarginContainer"]
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_styles/fill = SubResource("StyleBoxFlat_dwbse")
+show_percentage = false
+
+[node name="HealthLabel" type="Label" parent="UILayer/CenterContainer/MarginContainer/HealthBar"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "3 / 3"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="UILayer"]
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UILayer/MarginContainer"]
+layout_mode = 2
+
+[node name="LevelLabel" type="Label" parent="UILayer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "LEVEL : 1"
+
+[node name="XPBar" type="ProgressBar" parent="UILayer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_styles/fill = SubResource("StyleBoxFlat_dwbse")
+show_percentage = false
+
+[node name="XPLabel" type="Label" parent="UILayer/MarginContainer/VBoxContainer/XPBar"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "0 / 3"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="LevelUpLayer" type="CanvasLayer" parent="."]
+
+[node name="LevelUpMenu" parent="LevelUpLayer" instance=ExtResource("4_gbfbk")]
+visible = false
+
+[connection signal="level_up" from="Player" to="Controllers/LevelUpController" method="_on_player_level_up"]
+[connection signal="timeout" from="EnemySpawnTimer" to="Controllers/EnemyController" method="_on_enemy_spawn_timer_timeout"]
+[connection signal="chosen" from="LevelUpLayer/LevelUpMenu" to="Controllers/LevelUpController" method="_on_level_up_menu_chosen"]
