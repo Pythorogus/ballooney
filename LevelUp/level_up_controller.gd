@@ -8,12 +8,12 @@ extends Node
 var choices: Array[Dictionary] = [
 	#{"type":"heal","label":"HEAL 1 HP"},
 	{"type":"max_health","label":"MAX HEALTH +1"},
-	{"type":"projectile_number","label":"PROJECTILES +1"},
-	{"type":"projectile_size", "label":"PROJECTILE SIZE +50%"},
-	{"type":"projectile_speed", "label":"PROJECTILE SPEED +10%"},
-	{"type":"projectile_area", "label":"PROJECTILES AREA +15°"},
-	{"type":"speed", "label":"MOVEMENT SPEED +10%"},
-	{"type":"fire_rate", "label":"FIRE RATE +5%"},
+	{"type":"projectile_number","label":"BULLETS NUMBER +1"},
+	{"type":"projectile_size", "label":"BULLETS SIZE +1"},
+	{"type":"projectile_speed", "label":"BULLETS SPEED +1"},
+	{"type":"projectile_area", "label":"BULLETS AREA +15°"},
+	{"type":"speed", "label":"MOVEMENT SPEED +1"},
+	{"type":"fire_rate", "label":"FIRE RATE +1"},
 ]
 
 func _on_player_level_up() -> void:

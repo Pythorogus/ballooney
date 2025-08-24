@@ -8,6 +8,7 @@ class_name Enemy
 
 var player: Node3D
 var death_audio: AudioStreamPlayer3D
+var dead = false
 
 func _physics_process(_delta: float):
 	if player:
@@ -23,6 +24,8 @@ func _physics_process(_delta: float):
 		move_and_slide()
 
 func take_damage(amount: int):
+	if dead:
+		return
 	health -= amount
 	print(name, " prend ", amount, " dégâts ! (PV restants: ", health, ")")
 	flash_red()
@@ -30,6 +33,9 @@ func take_damage(amount: int):
 		die()
 
 func die(earn_xp = true):
+	if dead:
+		return
+	dead = true
 	print(name, " est mort.")
 	death_audio.play()
 	if earn_xp:

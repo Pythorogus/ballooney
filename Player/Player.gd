@@ -3,8 +3,8 @@ extends CharacterBody3D
 @export var weapon: Node3D
 @export var pan_audio: AudioStreamPlayer3D
 @export var projectile_scene: PackedScene
-@export var health: int = 3
-@export var max_health: int = 3
+@export var health: int = 5
+@export var max_health: int = 5
 @export var weapon_cooldown: Timer
 @export var projectile_spawn: Node3D
 @export var damage_area: Area3D
@@ -37,12 +37,14 @@ var max_xp: int = 3
 var level: int = 1
 
 var weapon_default_z: float
+var time_alive: float = 0.0
 
 func _ready():
 	weapon_default_z = weapon.position.z
 	health_bar.max_value = max_health
 	health_bar.value = health
 	update_health_label()
+	update_xp()
 	#for child in %WorldModel.find_children("*","VisualInstance3D"):
 		#child.set_layer_mask_value(1, false)
 		#child.set_layer_mask_value(2, true)
@@ -58,6 +60,9 @@ func _unhandled_input(event: InputEvent) -> void:
 		rotate_y(-event.relative.x * SENSITIVITY)
 		%Camera3D.rotate_x(-event.relative.y * SENSITIVITY)
 		%Camera3D.rotation.x = clamp(%Camera3D.rotation.x, deg_to_rad(-90), deg_to_rad(90))
+
+func _process(delta: float) -> void:
+	time_alive += delta
 
 func _physics_process(delta: float) -> void:
 	# Shoot
@@ -108,7 +113,7 @@ func shoot():
 		
 		# Tirer projectiles en arc
 		for i in range(num_projectiles):
-			if i == 0:
+			if i == 0 and num_projectiles != 3 and num_projectiles != 5:
 				# Balle centrale
 				var projectile_central = projectile_scene.instantiate()
 				projectile_central.scale *= (1.0 + bonus_projectile_size)
@@ -158,14 +163,19 @@ func update_health_label():
 
 func die():
 	print("Le joueur est mort !")
+	Data.last_level = level
+	Data.last_time_alive = time_alive
 	get_tree().change_scene_to_file("res://GameOver/game_over.tscn")
 
 func earn_xp(amount:int):
 	xp += amount
-	xp_bar.value = xp
-	xp_label.text = str(xp) + " / " + str(max_xp)
+	update_xp()
 	if xp == max_xp:
 		emit_level_up()
+
+func update_xp():
+	xp_bar.value = xp
+	xp_label.text = str(xp) + " / " + str(max_xp)
 
 func emit_level_up():
 	level += 1
@@ -175,7 +185,8 @@ func emit_level_up():
 	xp_bar.max_value = max_xp
 	level_label.text = "LEVEL : " + str(level)
 	level_up.emit()
-	
+	update_xp()
+
 func heal():
 	if health < max_health:
 		update_health(health + 1)
@@ -196,7 +207,7 @@ func upgrade_projectile_speed():
 	bonus_projectile_speed += 10
 
 func upgrade_projectile_size():
-	bonus_projectile_size += 0.5
+	bonus_projectile_size += 2.0
 
 func upgrade_fire_rate():
 	bonus_fire_rate += 0.05

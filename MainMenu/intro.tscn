@@ -1,0 +1,50 @@
+[gd_scene load_steps=2 format=3 uid="uid://cckvup8hdqe62"]
+
+[ext_resource type="Script" uid="uid://c8dcu5h2l1ntg" path="res://MainMenu/intro.gd" id="1_ggn72"]
+
+[node name="Intro" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_ggn72")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CenterContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 27
+text = "The Inflatus virus has swollen dogs into deadly Poodle Balloons…
+They no longer walk, they float. And they attack.
+Your only option : survive as long as you can against the rising tide of inflated creatures around you."
+
+[node name="MarginContainer" type="MarginContainer" parent="CenterContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_top = 50
+
+[node name="StartButton" type="Button" parent="CenterContainer/VBoxContainer/MarginContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "START"
+
+[connection signal="pressed" from="CenterContainer/VBoxContainer/MarginContainer/StartButton" to="." method="_on_start_button_pressed"]

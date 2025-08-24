@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://ctpxvyaklj1pb" path="res://GameOver/game_over.gd" id="1_g2khx"]
 [ext_resource type="AudioStream" uid="uid://b66esd6ir50ym" path="res://GameOver/dark-souls-you-died-sound-effect.ogg" id="2_dyh6w"]
 
-[node name="GameOver" type="Control" node_paths=PackedStringArray("game_over_audio")]
+[node name="GameOver" type="Control" node_paths=PackedStringArray("game_over_audio", "last_level_label", "last_time_alive_label")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -12,6 +12,8 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_g2khx")
 game_over_audio = NodePath("GameOverAudio")
+last_level_label = NodePath("CenterContainer/VBoxContainer/LevelLabel")
+last_time_alive_label = NodePath("CenterContainer/VBoxContainer/TimeLabel")
 
 [node name="ColorRect" type="ColorRect" parent="."]
 layout_mode = 1
@@ -39,12 +41,33 @@ theme_override_colors/font_color = Color(1, 0, 0, 1)
 theme_override_font_sizes/font_size = 100
 text = "U DED LOL"
 
-[node name="Button" type="Button" parent="CenterContainer/VBoxContainer"]
+[node name="TimeLabel" type="Label" parent="CenterContainer/VBoxContainer"]
 layout_mode = 2
+text = "Time alive : "
+horizontal_alignment = 1
+
+[node name="LevelLabel" type="Label" parent="CenterContainer/VBoxContainer"]
+layout_mode = 2
+text = "Level : "
+horizontal_alignment = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="CenterContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_top = 20
+
+[node name="ReplayButton" type="Button" parent="CenterContainer/VBoxContainer/MarginContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
 text = "Replay"
+
+[node name="ExitButton" type="Button" parent="CenterContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "Main menu"
 
 [node name="GameOverAudio" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("2_dyh6w")
 volume_db = 15.0
 
-[connection signal="pressed" from="CenterContainer/VBoxContainer/Button" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="CenterContainer/VBoxContainer/MarginContainer/ReplayButton" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="CenterContainer/VBoxContainer/ExitButton" to="." method="_on_exit_button_pressed"]

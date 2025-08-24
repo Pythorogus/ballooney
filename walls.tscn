@@ -1,0 +1,45 @@
+[gd_scene load_steps=5 format=3 uid="uid://dqmeg6d0j7r0u"]
+
+[ext_resource type="Texture2D" uid="uid://b3afylh7wdkxe" path="res://Arena/Concrete_Base_01_Ambient_Occlusion.jpg" id="1_jt0p1"]
+[ext_resource type="Texture2D" uid="uid://dbtu4jxkh1dr1" path="res://Arena/Concrete_Base_01_Height.jpg" id="2_ftpcs"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_07yvr"]
+albedo_color = Color(0.417257, 0.417257, 0.417257, 1)
+albedo_texture = ExtResource("1_jt0p1")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7i2ur"]
+albedo_texture = ExtResource("2_ftpcs")
+
+[node name="Walls" type="Node2D"]
+
+[node name="Walls" type="Node3D" parent="."]
+
+[node name="Ground" type="CSGBox3D" parent="Walls"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.453, 0)
+use_collision = true
+size = Vector3(75, 0.002, 75)
+material = SubResource("StandardMaterial3D_07yvr")
+
+[node name="Wall" type="CSGBox3D" parent="Walls"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -37.5)
+use_collision = true
+size = Vector3(75, 15, 1)
+material = SubResource("StandardMaterial3D_7i2ur")
+
+[node name="Wall2" type="CSGBox3D" parent="Walls"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 37.5)
+use_collision = true
+size = Vector3(75, 15, 1)
+material = SubResource("StandardMaterial3D_7i2ur")
+
+[node name="Wall3" type="CSGBox3D" parent="Walls"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -37.5, 0, 0)
+use_collision = true
+size = Vector3(75, 15, 1)
+material = SubResource("StandardMaterial3D_7i2ur")
+
+[node name="Wall4" type="CSGBox3D" parent="Walls"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 37.5, 0, 0)
+use_collision = true
+size = Vector3(75, 15, 1)
+material = SubResource("StandardMaterial3D_7i2ur")
