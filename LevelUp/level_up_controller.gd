@@ -3,16 +3,17 @@ extends Node
 @export var player: CharacterBody3D
 @export var level_up_menu: Control
 @export var cross_container: Container
+@export var level_up_audio: AudioStreamPlayer
 
 var choices: Array[Dictionary] = [
-	{"type":"heal","label":"HEAL 1 HP"},
+	#{"type":"heal","label":"HEAL 1 HP"},
 	{"type":"max_health","label":"MAX HEALTH +1"},
 	{"type":"projectile_number","label":"PROJECTILES +1"},
 	{"type":"projectile_size", "label":"PROJECTILE SIZE +50%"},
 	{"type":"projectile_speed", "label":"PROJECTILE SPEED +10%"},
 	{"type":"projectile_area", "label":"PROJECTILES AREA +15°"},
 	{"type":"speed", "label":"MOVEMENT SPEED +10%"},
-	{"type":"fire_rate", "label":"FIRE RATE +10%"},
+	{"type":"fire_rate", "label":"FIRE RATE +5%"},
 ]
 
 func _on_player_level_up() -> void:
@@ -28,11 +29,11 @@ func _on_player_level_up() -> void:
 	get_tree().paused = true
 	
 	choices.shuffle()
-	var new_choices = choices.slice(0, 3)
 	level_up_menu.define_choices(choices[0],choices[1],choices[2])
 	
 	level_up_menu.visible = true
 	cross_container.visible = false
+	level_up_audio.play()
 
 func _on_level_up_menu_chosen(type) -> void:
 	match type:

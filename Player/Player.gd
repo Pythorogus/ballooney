@@ -13,6 +13,8 @@ extends CharacterBody3D
 @export var level_label: Label
 @export var xp_label: Label
 @export var xp_bar: ProgressBar
+@export var hit_container: Control
+@export var hit_audio: AudioStreamPlayer3D
 
 signal level_up
 
@@ -34,7 +36,7 @@ var xp: int = 0
 var max_xp: int = 3
 var level: int = 1
 
-var weapon_default_z: int
+var weapon_default_z: float
 
 func _ready():
 	weapon_default_z = weapon.position.z
@@ -138,6 +140,10 @@ func shoot():
 		weapon_cooldown.start()
 
 func take_damage(amount:int):
+	var tween = create_tween()
+	tween.tween_property(hit_container, "modulate:a", 1, 0.1)
+	tween.tween_property(hit_container, "modulate:a", 0, 0.1)
+	hit_audio.play()
 	update_health(health - amount)
 
 func update_health(new_health):
@@ -178,6 +184,7 @@ func upgrade_max_health():
 	max_health += 1
 	health_bar.max_value = max_health
 	update_health_label()
+	heal()
 
 func upgrade_speed():
 	bonus_speed += 0.1
@@ -192,7 +199,7 @@ func upgrade_projectile_size():
 	bonus_projectile_size += 0.5
 
 func upgrade_fire_rate():
-	bonus_fire_rate += 0.1
+	bonus_fire_rate += 0.05
 	weapon_cooldown.wait_time -= (weapon_cooldown.wait_time * (bonus_fire_rate-1))
 
 func upgrade_projectile_area():
@@ -201,4 +208,4 @@ func upgrade_projectile_area():
 func _on_damage_area_body_entered(body: Node3D) -> void:
 	if body is Enemy:
 		take_damage(1)
-		body.die()
+		body.die(false)

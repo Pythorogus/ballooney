@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://dg3ofdofjqv78"]
+[gd_scene load_steps=23 format=3 uid="uid://dg3ofdofjqv78"]
 
 [ext_resource type="Script" uid="uid://pbd55wd4m1df" path="res://Enemy/enemy_controller.gd" id="1_036b0"]
 [ext_resource type="Texture2D" uid="uid://b3afylh7wdkxe" path="res://Arena/Concrete_Base_01_Ambient_Occlusion.jpg" id="1_aqk2v"]
@@ -9,6 +9,8 @@
 [ext_resource type="PackedScene" uid="uid://bhq2waopgi1v7" path="res://LevelUp/level_up_menu.tscn" id="4_gbfbk"]
 [ext_resource type="Script" uid="uid://dqauw4q1cjqmb" path="res://Game/game_controller.gd" id="4_ioo17"]
 [ext_resource type="Texture2D" uid="uid://dbtu4jxkh1dr1" path="res://Arena/Concrete_Base_01_Height.jpg" id="6_dwbse"]
+[ext_resource type="AudioStream" uid="uid://17oqs1xnrc02" path="res://Inflatus.ogg" id="10_wse8f"]
+[ext_resource type="AudioStream" uid="uid://dmsej2gv75ja0" path="res://LevelUp/level_up.ogg" id="11_ic0uy"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_f3sb7"]
 sky_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
@@ -29,6 +31,26 @@ albedo_texture = ExtResource("1_aqk2v")
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_036b0"]
 albedo_texture = ExtResource("6_dwbse")
 
+[sub_resource type="Gradient" id="Gradient_ic0uy"]
+offsets = PackedFloat32Array(0, 0.151515)
+colors = PackedColorArray(1, 0, 0, 0.388235, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_k3n1d"]
+gradient = SubResource("Gradient_ic0uy")
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_2o6r5"]
+gradient = SubResource("Gradient_ic0uy")
+fill_from = Vector2(1, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_70uel"]
+gradient = SubResource("Gradient_ic0uy")
+fill_from = Vector2(1, 0)
+fill_to = Vector2(0, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_hiqwa"]
+gradient = SubResource("Gradient_ic0uy")
+fill_to = Vector2(0, 1)
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dwbse"]
 bg_color = Color(1, 0.339639, 0.307252, 1)
 
@@ -43,11 +65,12 @@ enemy_spawns = NodePath("../../EnemySpawns")
 enemies = NodePath("../../Enemies")
 player = NodePath("../../Player")
 
-[node name="LevelUpController" type="Node" parent="Controllers" node_paths=PackedStringArray("player", "level_up_menu", "cross_container")]
+[node name="LevelUpController" type="Node" parent="Controllers" node_paths=PackedStringArray("player", "level_up_menu", "cross_container", "level_up_audio")]
 script = ExtResource("3_pkg7o")
 player = NodePath("../../Player")
 level_up_menu = NodePath("../../LevelUpLayer/LevelUpMenu")
 cross_container = NodePath("../../UILayer/CrossContainer")
+level_up_audio = NodePath("../../LevelUpAudio")
 
 [node name="GameController" type="Node" parent="Controllers"]
 script = ExtResource("4_ioo17")
@@ -59,7 +82,7 @@ shadow_enabled = true
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_tlwt5")
 
-[node name="Player" parent="." node_paths=PackedStringArray("health_bar", "health_label", "level_label", "xp_label", "xp_bar") instance=ExtResource("1_f3sb7")]
+[node name="Player" parent="." node_paths=PackedStringArray("health_bar", "health_label", "level_label", "xp_label", "xp_bar", "hit_container") instance=ExtResource("1_f3sb7")]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.148115, -0.4985, -0.070585)
 health_bar = NodePath("../UILayer/CenterContainer/MarginContainer/HealthBar")
@@ -67,6 +90,7 @@ health_label = NodePath("../UILayer/CenterContainer/MarginContainer/HealthBar/He
 level_label = NodePath("../UILayer/MarginContainer/VBoxContainer/LevelLabel")
 xp_label = NodePath("../UILayer/MarginContainer/VBoxContainer/XPBar/XPLabel")
 xp_bar = NodePath("../UILayer/MarginContainer/VBoxContainer/XPBar")
+hit_container = NodePath("../UILayer/HitContainer")
 
 [node name="EnemySpawns" type="Node3D" parent="."]
 
@@ -138,6 +162,51 @@ size = Vector3(75, 15, 1)
 material = SubResource("StandardMaterial3D_036b0")
 
 [node name="UILayer" type="CanvasLayer" parent="."]
+
+[node name="HitContainer" type="Control" parent="UILayer"]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TextureRect" type="TextureRect" parent="UILayer/HitContainer"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("GradientTexture2D_k3n1d")
+
+[node name="TextureRect2" type="TextureRect" parent="UILayer/HitContainer"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("GradientTexture2D_2o6r5")
+
+[node name="TextureRect3" type="TextureRect" parent="UILayer/HitContainer"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("GradientTexture2D_70uel")
+
+[node name="TextureRect4" type="TextureRect" parent="UILayer/HitContainer"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("GradientTexture2D_hiqwa")
 
 [node name="CrossContainer" type="CenterContainer" parent="UILayer"]
 anchors_preset = 15
@@ -216,6 +285,15 @@ vertical_alignment = 1
 
 [node name="LevelUpMenu" parent="LevelUpLayer" instance=ExtResource("4_gbfbk")]
 visible = false
+
+[node name="MusicAudio" type="AudioStreamPlayer" parent="."]
+process_mode = 3
+stream = ExtResource("10_wse8f")
+autoplay = true
+
+[node name="LevelUpAudio" type="AudioStreamPlayer" parent="."]
+process_mode = 3
+stream = ExtResource("11_ic0uy")
 
 [connection signal="level_up" from="Player" to="Controllers/LevelUpController" method="_on_player_level_up"]
 [connection signal="timeout" from="EnemySpawnTimer" to="Controllers/EnemyController" method="_on_enemy_spawn_timer_timeout"]

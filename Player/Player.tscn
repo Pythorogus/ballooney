@@ -1,9 +1,10 @@
-[gd_scene load_steps=10 format=3 uid="uid://0xjudtughdoh"]
+[gd_scene load_steps=11 format=3 uid="uid://0xjudtughdoh"]
 
 [ext_resource type="Script" uid="uid://cqkqta30w448c" path="res://Player/Player.gd" id="1_2j53v"]
 [ext_resource type="PackedScene" uid="uid://bfvdh2uyp43fv" path="res://Weapon/projectile.tscn" id="2_tok1r"]
 [ext_resource type="PackedScene" uid="uid://bbq0w2fxno4w" path="res://Weapon/rifle_v_3.tscn" id="4_6ysni"]
 [ext_resource type="AudioStream" uid="uid://dkad4d5dbsnw8" path="res://Weapon/pan.mp3" id="4_ddoul"]
+[ext_resource type="AudioStream" uid="uid://bi4tfihjnh3xc" path="res://Player/hit.ogg" id="5_8g4oa"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_f6xud"]
 
@@ -18,7 +19,7 @@ albedo_color = Color(0.713225, 0.268923, 0.271648, 1)
 [sub_resource type="CylinderMesh" id="CylinderMesh_jryqt"]
 material = SubResource("StandardMaterial3D_2j53v")
 
-[node name="CharacterBody3D" type="CharacterBody3D" node_paths=PackedStringArray("weapon", "pan_audio", "weapon_cooldown", "projectile_spawn", "damage_area")]
+[node name="CharacterBody3D" type="CharacterBody3D" node_paths=PackedStringArray("weapon", "pan_audio", "weapon_cooldown", "projectile_spawn", "damage_area", "hit_audio")]
 script = ExtResource("1_2j53v")
 weapon = NodePath("Head/Camera3D/Rifle_V3")
 pan_audio = NodePath("PanAudio")
@@ -26,6 +27,7 @@ projectile_scene = ExtResource("2_tok1r")
 weapon_cooldown = NodePath("WeaponCooldown")
 projectile_spawn = NodePath("Head/Camera3D/Rifle_V3/ProjectileSpawn")
 damage_area = NodePath("DamageArea")
+hit_audio = NodePath("HitAudio")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
@@ -75,5 +77,9 @@ stream = ExtResource("4_ddoul")
 
 [node name="WeaponCooldown" type="Timer" parent="."]
 one_shot = true
+
+[node name="HitAudio" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("5_8g4oa")
+volume_db = -16.307
 
 [connection signal="body_entered" from="DamageArea" to="." method="_on_damage_area_body_entered"]

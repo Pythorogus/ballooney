@@ -9,7 +9,7 @@ class_name Enemy
 var player: Node3D
 var death_audio: AudioStreamPlayer3D
 
-func _physics_process(delta: float):
+func _physics_process(_delta: float):
 	if player:
 		var dir = (player.global_transform.origin - global_transform.origin)
 		dir.y = 0
@@ -29,10 +29,11 @@ func take_damage(amount: int):
 	if health <= 0:
 		die()
 
-func die():
+func die(earn_xp = true):
 	print(name, " est mort.")
 	death_audio.play()
-	player.earn_xp(1)
+	if earn_xp:
+		player.earn_xp(1)
 	queue_free()
 
 func flash_red():
