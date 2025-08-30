@@ -15,7 +15,7 @@ func spawn():
 	var duplication = 1 + int(player.level / 10)
 	if player.level >= 5:
 		enemy_spawn_timer.wait_time = 1.5
-	if player.level >= 10:
+	if player.level >= 15:
 		enemy_spawn_timer.wait_time = 1.0
 	if player.level >= 30:
 		duplication = 1 + int(player.level / 3)
@@ -36,9 +36,12 @@ func spawn():
 		enemy.global_position = enemy_spawns.get_children()[next_spawn].global_position
 		enemy.speed = enemy.speed * (1 + (int(player.level / 10) / 10))
 	
-		next_spawn += 1
-		if next_spawn >= enemy_spawns.get_children().size():
-			next_spawn = 0
+		var previous_spawn = next_spawn
+		while next_spawn == previous_spawn :
+			next_spawn = randi_range(0, enemy_spawns.get_children().size() - 1)
+		#next_spawn += 1
+		#if next_spawn >= enemy_spawns.get_children().size():
+			#next_spawn = 0
 
 func _on_enemy_spawn_timer_timeout() -> void:
 	spawn()

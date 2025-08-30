@@ -74,6 +74,8 @@ mesh = SubResource("CylinderMesh_jryqt")
 [node name="PanAudio" type="AudioStreamPlayer3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.148115, 0.4985, 0.070585)
 stream = ExtResource("4_ddoul")
+volume_db = -19.0
+bus = &"SFX"
 
 [node name="WeaponCooldown" type="Timer" parent="."]
 one_shot = true
@@ -81,5 +83,6 @@ one_shot = true
 [node name="HitAudio" type="AudioStreamPlayer3D" parent="."]
 stream = ExtResource("5_8g4oa")
 volume_db = -16.307
+bus = &"SFX"
 
 [connection signal="body_entered" from="DamageArea" to="." method="_on_damage_area_body_entered"]

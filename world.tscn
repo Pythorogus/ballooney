@@ -92,6 +92,7 @@ hit_container = NodePath("../UILayer/HitContainer")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.493336, 0)
 
 [node name="EnemySpawns" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.203934, 0)
 
 [node name="Spawn" type="Node3D" parent="EnemySpawns"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 30.1464)
@@ -106,10 +107,10 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30.653, 0, -0.653385)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 23.682, 0, -15.7678)
 
 [node name="Spawn3" type="Node3D" parent="EnemySpawns"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.9291, -1.36114, -28.4491)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.929, 0, -28.449)
 
 [node name="Spawn11" type="Node3D" parent="EnemySpawns"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.00175, -1.36114, -35.1866)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.002, 0, -35.187)
 
 [node name="Spawn4" type="Node3D" parent="EnemySpawns"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.4806, 0, -26.8807)
@@ -136,7 +137,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 46.667, 0, 0)
 [node name="EnemyDeathAudio" type="AudioStreamPlayer3D" parent="."]
 unique_name_in_owner = true
 stream = ExtResource("3_tlwt5")
-volume_db = -2.038
+volume_db = -5.848
+bus = &"SFX"
 
 [node name="UILayer" type="CanvasLayer" parent="."]
 
@@ -270,11 +272,15 @@ visible = false
 [node name="MusicAudio" type="AudioStreamPlayer" parent="."]
 process_mode = 3
 stream = ExtResource("10_wse8f")
+volume_db = -9.905
 autoplay = true
+bus = &"Music"
 
 [node name="LevelUpAudio" type="AudioStreamPlayer" parent="."]
 process_mode = 3
 stream = ExtResource("11_ic0uy")
+volume_db = -9.905
+bus = &"SFX"
 
 [connection signal="level_up" from="Player" to="Controllers/LevelUpController" method="_on_player_level_up"]
 [connection signal="timeout" from="EnemySpawnTimer" to="Controllers/EnemyController" method="_on_enemy_spawn_timer_timeout"]
